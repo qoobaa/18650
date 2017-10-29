@@ -1,4 +1,4 @@
-# Cell Holder with an Integrated Spring
+# Cell Holder with a Spring
 
 This project aims to provide a reliable cylindrical cell holder with
 an integrated spring for creating battery modules.
