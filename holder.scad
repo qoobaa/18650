@@ -46,8 +46,7 @@ module holder(cell_width, cell_length, height, thickness, hole_size = 1, contact
 
                     // spring wall removal
                     translate([0, length + thickness, 0])
-                         cube([cell_width + 2 * thickness, thickness * 2, thickness + height
-]);
+                         cube([cell_width + 2 * thickness, thickness * 2, thickness + height]);
                }
 
                difference () {
