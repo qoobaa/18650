@@ -1,4 +1,4 @@
-cell_length = 65.5;
+cell_length = 65.75;
 cell_width = 18.75;
 height = 13;
 thickness = 1;
@@ -41,8 +41,8 @@ module holder(cell_width, cell_length, height, thickness, hole_size = 1, contact
                          cube([cell_width, length, height]);
 
                     // spring spacer
-                    translate([0, length - thickness, 0])
-                         cube([cell_width + 2 * thickness, thickness * 2, thickness]);
+                    translate([thickness, length, 0])
+                         cube([cell_width, thickness, thickness]);
 
                     // spring wall removal
                     translate([0, length + thickness, 0])
@@ -53,10 +53,6 @@ module holder(cell_width, cell_length, height, thickness, hole_size = 1, contact
                     // spring
                     translate([thickness + cell_width / 2, thickness + length, 0])
                          spring(radius = cell_width / 8, cell_width = cell_width, height = height, thickness = thickness);
-
-                    // busbar access hole
-                    translate([thickness + cell_width / 4, cell_length + thickness * 2, 0])
-                         cube([cell_width / 2, thickness, cell_width / 6]);
                }
           }
 
@@ -72,12 +68,22 @@ module holder(cell_width, cell_length, height, thickness, hole_size = 1, contact
      }
 }
 
-difference() {
-     union() {
-          for (i = [0 : 2]) {
-               for (j = [0, 0]) {
-                    translate([i * (cell_width + thickness) + j * (cell_width + thickness * 2), j * thickness, 0]) rotate(j * 180)
-                         holder(cell_width = cell_width, cell_length = cell_length, height = height, thickness = thickness, hole_size = 1);
+union() {
+     for (i = [0 : 1]) {
+          for (j = [0, 0]) {
+               translate([i * (cell_width + thickness) + j * (cell_width + thickness * 2), j * thickness, 0]) rotate(j * 180)
+
+                    difference() {
+                    holder(cell_width = cell_width, cell_length = cell_length, height = height, thickness = thickness, hole_size = 1);
+
+                    hull() {
+                         translate([0, height + thickness, thickness])
+                              rotate([45, 0, 0])
+                              cube([cell_width + 2 * thickness, height * sqrt(2), height * sqrt(2)]);
+                         translate([0, cell_length - height + thickness * 2, thickness])
+                              rotate([45, 0, 0])
+                              cube([cell_width + 2 * thickness, height * sqrt(2), height * sqrt(2)]);
+                    }
                }
           }
      }
